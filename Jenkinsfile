@@ -32,7 +32,7 @@ pipeline{
                 }
             }
         }
-        stage('Build the docker image'){
+        stage('Build the docker image '){
             steps{
                 script{
                     withAWS(credentials: 'aws-creds', region: 'us-east-1') { // here this line will be executed only within this stage
