@@ -9,10 +9,10 @@ pipeline{
         timeout(time: 30, unit: 'MINUTES')
         disableConcurrentBuilds()
     }
-    stages{
-        stage('Read package.json file'){
+    stages {
+        stage('Read package.json file') {
             steps {
-                script{
+                script {
                     def packageJson = readJson file: 'package.json'
                     appVersion = packageJson.version
                     echo "Package version : ${appVersion}"
