@@ -10,7 +10,7 @@ pipeline{
         disableConcurrentBuilds()
     }
     stages {
-        stage('Read package.json file') {
+        stage('Read package.json file ') {
             steps {
                 script {
                     def packageJson = readJSON file: 'package.json'
