@@ -49,6 +49,9 @@ pipeline{
             }
         }
         stage('Trigger catalogue-cd'){
+            when {
+                expression { params.deploy }
+            }
             steps{
                 script{
                     build job: 'catalogue-cd',
