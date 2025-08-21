@@ -56,7 +56,7 @@ pipeline{
                         string(name: 'appVersion', value: '${appVersion}'),
                         string(name:'deploy_to', value: 'dev')
                     ]
-                    propagate: false
+                    propagate: false,
                     wait: false
                 }
             }
