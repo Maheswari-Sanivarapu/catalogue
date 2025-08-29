@@ -76,11 +76,11 @@ pipeline{
                     def response = sh(
                         script: """
                             curl -s -H "Accept: application/vnd.github+json" \
-                                -H "Authorization: token ${GITHUB_TOKEN}" \
-                                https://api.github.com/repos/Maheswari-Sanivarapu/${COMPONENT}/dependabot/alerts
+                                 -H "Authorization: token ${GITHUB_TOKEN}" \
+                                 https://api.github.com/repos/Maheswari-Sanivarapu/catalogue/dependabot/alerts
                         """,
-                            returnStdout: true
-                        ).trim()
+                        returnStdout: true
+                    ).trim()
                         // Parse and evaluate the JSON in Groovy
                     def json = readJSON text: response
 
