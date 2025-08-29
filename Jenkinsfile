@@ -67,6 +67,9 @@ pipeline{
             }
         } */
         stage('Check Dependabot Alerts') {
+            environment{
+                GITHUB_TOKEN = credentials('github-token')
+            }
             steps {
                 script {
                         // Fetch the alerts JSON and save to file
