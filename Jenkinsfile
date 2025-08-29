@@ -73,31 +73,31 @@ pipeline{
             steps {
                 script {
                         // Fetch the alerts JSON and save to file
-                        def response = sh(
-                            script: """
-                                curl -s -H "Accept: application/vnd.github+json" \
-                                    -H "Authorization: token ${GITHUB_TOKEN}" \
-                                    https://api.github.com/repos/Maheswari-Sanivarapu/${COMPONENT}/dependabot/alerts
-                            """,
+                    def response = sh(
+                        script: """
+                            curl -s -H "Accept: application/vnd.github+json" \
+                                -H "Authorization: token ${GITHUB_TOKEN}" \
+                                https://api.github.com/repos/Maheswari-Sanivarapu/${COMPONENT}/dependabot/alerts
+                        """,
                             returnStdout: true
                         ).trim()
                         // Parse and evaluate the JSON in Groovy
-                        def json = readJSON text: response
+                    def json = readJSON text: response
 
-                        def highOrCritical = alerts.findAll { alert ->
-                            def severity = alert.security_advisory?.severity?.toLowerCase()
-                            return (severity == 'high' || severity == 'critical')
-                        }
+                    def highOrCritical = alerts.findAll { alert ->
+                        def severity = alert.security_advisory?.severity?.toLowerCase()
+                        return (severity == 'high' || severity == 'critical')
+                    }
 
-                        if (highOrCritical.size() > 0) {
-                            echo "❌ Found ${highOrCritical.size()} high/critical Dependabot alerts!"
-                            error("Failing build due to high/critical vulnerabilities.")
-                        } else {
-                            echo "✅ No high or critical Dependabot alerts found."
-                        }
+                    if (highOrCritical.size() > 0) {
+                        echo "❌ Found ${highOrCritical.size()} high/critical Dependabot alerts!"
+                        error("Failing build due to high/critical vulnerabilities.")
+                    } else {
+                        echo "✅ No high or critical Dependabot alerts found."
                     }
                 }
             }
+        }   
         stage('Build the docker image '){
             steps{
                 script{
