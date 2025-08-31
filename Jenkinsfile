@@ -60,12 +60,12 @@ pipeline{
             }
         }
         // enabling webhook in sonarqube server and wait for results
-        /* stage('Quality Gate'){
+        stage('Quality Gate'){
             steps{
                 timeout(time: 1, unit: 'HOURS'){
                 waitForQualityGate abortPipeline: true }
             }
-        } */
+        }
         stage('Check Dependabot Alerts') {
             environment{
                 GITHUB_TOKEN = credentials('github-token')
@@ -81,11 +81,19 @@ pipeline{
                         """,
                         returnStdout: true
                     ).trim()
+                    def response = sh(
+                        script: """
+                            curl -s -H "Accept: application/vnd.github+json" -H "$AUTH_HEADER" \
+                            https://api.github.com/repos/Maheswari-Sanivarapu/catalogue/dependabot/alerts
+                        """,
+                        returnStdout: true
+                    ).trim()
                         // Parse and evaluate the JSON in Groovy
                     def json = readJSON text: response
 
                     def highOrCritical = alerts.findAll { alert ->
-                        def severity = alert.security_advisory?.severity?.toLowerCase()
+                        def severity = alert?.security_advisory?.severity?.toLowerCase()
+                        def state = alert?.state?.toLowerCase()
                         return (severity == 'high' || severity == 'critical')
                     }
 
