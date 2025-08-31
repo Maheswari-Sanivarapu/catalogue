@@ -84,7 +84,7 @@ pipeline{
                         // Parse and evaluate the JSON in Groovy
                     def json = readJSON text: response
 
-                    def highOrCritical = alerts.findAll { alert ->
+                    def highOrCritical = json.findAll { alert ->
                         def severity = alert?.security_advisory?.severity?.toLowerCase()
                         def state = alert?.state?.toLowerCase()
                         return (severity == 'high' || severity == 'critical')
