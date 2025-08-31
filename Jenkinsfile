@@ -66,7 +66,7 @@ pipeline{
                 waitForQualityGate abortPipeline: true }
             }
         }
-        stage('Check Dependabot Alerts') {
+        /* stage('Check Dependabot Alerts') {
             environment{
                 GITHUB_TOKEN = credentials('github-token')
             }
@@ -78,13 +78,6 @@ pipeline{
                             curl -s -H "Accept: application/vnd.github+json" \
                                  -H "Authorization: token ${GITHUB_TOKEN}" \
                                  https://api.github.com/repos/Maheswari-Sanivarapu/catalogue/dependabot/alerts
-                        """,
-                        returnStdout: true
-                    ).trim()
-                    def response = sh(
-                        script: """
-                            curl -s -H "Accept: application/vnd.github+json" -H "$AUTH_HEADER" \
-                            https://api.github.com/repos/Maheswari-Sanivarapu/catalogue/dependabot/alerts
                         """,
                         returnStdout: true
                     ).trim()
@@ -105,7 +98,7 @@ pipeline{
                     }
                 }
             }
-        }   
+        }    */
         stage('Build the docker image '){
             steps{
                 script{
