@@ -74,11 +74,12 @@ pipeline{
                 script {
                         // Fetch the alerts JSON and save to file
                     def response = sh(
-                        script: """
+                        script: 
+                        sh """
                             curl -s -H "Accept: application/vnd.github+json" \
                                  -H "Authorization: token ${GITHUB_TOKEN}" \
                                  https://api.github.com/repos/Maheswari-Sanivarapu/catalogue/dependabot/alerts
-                        """,
+                           """,
                         returnStdout: true
                     ).trim()
                         // Parse and evaluate the JSON in Groovy
