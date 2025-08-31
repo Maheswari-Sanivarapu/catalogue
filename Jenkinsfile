@@ -88,7 +88,7 @@ pipeline{
                     def highOrCritical = json.findAll { alert ->
                         def severity = alert?.security_advisory?.severity?.toLowerCase()
                         def state = alert?.state?.toLowerCase()
-                        return (severity == 'high' || severity == 'critical')
+                        return (state == "open" && severity == 'high' || severity == 'critical')
                     }
 
                     if (highOrCritical.size() > 0) {
