@@ -114,6 +114,37 @@ pipeline{
                 }
             }
         }
+        stage('ECR Scan'){
+            steps{
+                script{
+                    def findings = sh(
+                    script: """
+                        aws ecr describe-image-scan-findings \
+                            --repository-name ${PROJECT}/${COMPONENT} \
+                            --image-id imageTag=${appVersion} \
+                            --region ${REGION} \
+                            --output json
+                    """,
+                    returnStdout: true
+                    ).trim()
+
+                    // Parse JSON in Groovy
+                    def json = readJSON text: findings
+
+                    // Filter findings with severity HIGH or CRITICAL
+                    def highOrCritical = json.imageScanFindings.findings.findAll { 
+                        it.severity == 'HIGH' || it.severity == 'CRITICAL'
+                    }
+
+                    if (highOrCritical.size() > 0) {
+                        echo "❌ Found ${highOrCritical.size()} high/critical ECR vulnerabilities!"
+                        error("Failing build due to high/critical image scan findings.")
+                    } else {
+                        echo "✅ No high or critical ECR vulnerabilities found."
+                    }
+                }
+            }
+        }
         stage('Trigger catalogue-cd'){
             // here it will trigger the cd and here catalogue-cd is downstream to catalogue-ci
             // here keeping when condition so everytime it won't trigger the CD,when developer wrote the code and it is scanned successfully then only CD will be triggered or else it won't be triggered so keeping when condition
