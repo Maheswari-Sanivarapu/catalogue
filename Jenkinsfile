@@ -99,7 +99,7 @@ pipeline{
                     }
                 }
             }
-        }   
+        }    */
         stage('Build the docker image '){
             steps{
                 script{
@@ -114,7 +114,7 @@ pipeline{
                 }
             }
         }
-        stage('ECR Scan'){
+        /* stage('ECR Scan'){
             steps{
                 script{
                     def findings = sh(
@@ -144,7 +144,7 @@ pipeline{
                     }
                 }
             }
-        } */
+        }  */
         stage('Trigger catalogue-cd'){
             // here it will trigger the cd and here catalogue-cd is downstream to catalogue-ci
             // here keeping when condition so everytime it won't trigger the CD,when developer wrote the code and it is scanned successfully then only CD will be triggered or else it won't be triggered so keeping when condition
