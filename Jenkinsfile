@@ -45,7 +45,7 @@ pipeline{
                 }
             }
         }
-        stage('Sonar scan'){
+        /* stage('Sonar scan'){
             environment{
                 // Set the path to the SonarScanner executable
                 // The 'tool' directive provides the path based on the configured tool
@@ -61,12 +61,12 @@ pipeline{
             }
         } 
         // enabling webhook in sonarqube server and wait for results
-        /* stage('Quality Gate'){
+        stage('Quality Gate'){
             steps{
                 timeout(time: 1, unit: 'HOURS'){
                 waitForQualityGate abortPipeline: true }
             }
-        } */
+        }
         stage('Check Dependabot Alerts') {
             environment{
                 GITHUB_TOKEN = credentials('github-token')
@@ -144,7 +144,7 @@ pipeline{
                     }
                 }
             }
-        }
+        } */
         stage('Trigger catalogue-cd'){
             // here it will trigger the cd and here catalogue-cd is downstream to catalogue-ci
             // here keeping when condition so everytime it won't trigger the CD,when developer wrote the code and it is scanned successfully then only CD will be triggered or else it won't be triggered so keeping when condition
